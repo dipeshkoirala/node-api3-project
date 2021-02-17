@@ -1,10 +1,25 @@
 const express = require('express');
-
+const users=require("./users-model")
 const router = express.Router();
 
 router.get('/', (req, res) => {
   // RETURN AN ARRAY WITH ALL THE USERS
   console.log("\033[31m[This is in response to \033[34m[GET Method]\033[31m from userRouter]")
+  const options = {
+		sortBy: req.query.sortBy,
+		limit: req.query.limit,
+	}
+
+	users.get(options)
+		.then((users) => {
+			res.status(200).json(users)
+		})
+		.catch((error) => {
+		
+			next(error)
+
+		
+		})
 });
 
 router.get('/:id', (req, res) => {
