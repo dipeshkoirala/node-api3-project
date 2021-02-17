@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   // RETURN AN ARRAY WITH ALL THE USERS
+  console.log("\033[31m[This is in response to \033[34m[GET Method]\033[31m from userRouter]")
 });
 
 router.get('/:id', (req, res) => {
@@ -12,6 +13,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+  console.log("\033[31m[This is in response to \033[34m[POST Method]\033[31m from userRouter]")
   // RETURN THE NEWLY CREATED USER OBJECT
   // this needs a middleware to check that the request body is valid
 });
@@ -39,3 +41,4 @@ router.post('/:id/posts', (req, res) => {
 });
 
 // do not forget to export the router
+module.exports=router
