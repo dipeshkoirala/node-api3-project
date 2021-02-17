@@ -32,18 +32,19 @@ function validateUserId(req, res, next) {
 	}
 }
 
-function validateUser(req, res, next) {
+function validateUser() {
   // DO YOUR MAGIC
 
   return (req, res, next) => {
-
+    
     if (!req.body.name) {
         res.status(400).json({
             message: "Missing user name",
         })
     } else {
-         users.insert(req.body.name)
+        //  users.insert(req.body.name)
         next()
+        
     }
 }
 }
