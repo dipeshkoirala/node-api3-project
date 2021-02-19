@@ -1,19 +1,22 @@
 const express = require('express');
-const users=require("./users-model")
-const router = express.Router();
-const { validateUserID, validateUser,validatePost } = require("../middleware/middleware")
+const Users=require("./users-model")
 
-router.get('/', (req, res) => {
-  // RETURN AN ARRAY WITH ALL THE USERS
+const { validateUserId, validateUser,validatePost } = require("../middleware/middleware")
+
+const router = express.Router();
+
+router.get('/', (req, res,next) => {
+  
+  // RETURN AN ARRAY WITH ALL THE Users
   console.log("\033[31m[This is in response to \033[34m[GET Method]\033[31m from userRouter]")
   const options = {
 		sortBy: req.query.sortBy,
 		limit: req.query.limit,
 	}
 
-	users.get(options)
-		.then((users) => {
-			res.status(200).json(users)
+	Users.get(options)
+		.then((result) => {
+			res.status(200).json(result)
 		})
 		.catch((error) => {
 		
@@ -28,23 +31,33 @@ router.get('/:id', (req, res) => {
   // this needs a middleware to verify user id
 });
 
-router.post('/',validateUser(), (req, res,next) => {
+/* router.post('/',/*  validateUser()  (req, res,next) => {
   console.log("\033[31m[This is in response to \033[34m[POST Method]\033[31m from userRouter]")
   // RETURN THE NEWLY CREATED USER OBJECT
   // this needs a middleware to check that the request body is valid
-   users.insert(req.body.name)
-  .then((user)=>{
-    res.status(201).json(user)
-  }).catch((err)=>{
-    next(err)
-  })
+  // Users.get()
+  console.log(req.body)
+   Users.insert(req.body)
+   .then((user)=>{
+     res.status(201).json(user)
+  }).catch(next)
+}) */
+
+router.post("/", (req, res, next)=>{
+  const name=req.body
+Users.insert(name)
+.then((user)=>{
+  res.status(201).json(user)
+  
+}).catch(next)
+
 })
 
-router.put('/:id',validateUser(),validateUserID(), (req, res,next) => {
+router.put('/:id',validateUser(),validateUserId(), (req, res,next) => {
   // RETURN THE FRESHLY UPDATED USER OBJECT
   // this needs a middleware to verify user id
   // and another middleware to check that the request body is valid
-  users.update(req.params.id, req.body)
+  Users.update(req.params.id, req.body)
   .then((user) => {
     if (user) {
       res.status(200).json(user)

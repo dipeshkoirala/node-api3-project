@@ -26,8 +26,8 @@ function getUserPosts(userId) {
     .where('p.user_id', userId);
 }
 
-async function insert(user) {
-  return await db('users')
+ function insert(user) {
+  return db('users')
     .insert(user)
     .then(ids => {
       return getById(ids[0]);

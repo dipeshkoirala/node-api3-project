@@ -1,7 +1,7 @@
 const express = require('express');
 const posts=require('./posts-model')
 
-const {validateUserID,validateUser,validatePost}=require("../middleware/middleware")
+const {validateUserId,validateUser,validatePost}=require("../middleware/middleware")
 const router = express.Router();
 
 router.get('/', (req, res,next) => {
@@ -24,8 +24,9 @@ router.get('/', (req, res,next) => {
 		})
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validateUserId(),(req, res,next) => {
   // DO YOUR MAGIC
+  res.status(200).json(req.user)
 });
 
 // do not forget to export the router

@@ -3,18 +3,25 @@
 
 const express = require("express")
  const server= require("./api/server")
-
+const morgan=require("morgan")
 
 
 const postsRouter = require("./api/posts/posts-router")
 
 const userRouter=require("./api/users/users-router")
 
-const port = 4444
-
-// server.use(express.json())
+const port = process.env.port||4444
 
 
+
+server.use(morgan("dev"))
+server.get("/", (req, res) => {
+	res.status(200).json({
+		message: `Welcome ${process.env.COHORT}`,
+		status: process.env.STATUS || "not deployed",
+		herokuPort: process.env.PORT,
+	})
+})
 server.use("/api/post",postsRouter)
 server.use("/api/users",userRouter)
 
@@ -24,6 +31,7 @@ server.use((err, req, res, next) => {
 
 	res.status(500).json({
 		message: "Something went wrong, please try again later.",
+		err: err.message
 	})
 })
  

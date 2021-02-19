@@ -7,7 +7,16 @@ const server = express();
 // global middlewares and routes need to be connected here
 
 server.get('/', logger,(req, res) => {
-  res.send(`<h2>Let's write some middleware!</h2>`);
+  res.status(200).json({
+		message: `Welcome ${process.env.COHORT}`,
+		status: process.env.STATUS || "not deployed",
+		herokuPort: process.env.PORT,
+	})
 });
 
 module.exports = server;
+
+
+server.get("/", (req, res) => {
+
+})

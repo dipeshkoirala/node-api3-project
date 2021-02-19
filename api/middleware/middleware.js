@@ -9,11 +9,11 @@ function logger(req, res, next) {
 }
 
 
-function validateUserId(req, res, next) {
+function validateUserId() {
   // DO YOUR MAGIC
 
   return (req, res, next) => {
-		users.getUserById(req.params.id)
+		users.getById(req.params.id)
 			.then((user) => {
 				if (user) {
 					// set a value to the request so it can be
@@ -38,14 +38,15 @@ function validateUser() {
   return (req, res, next) => {
     
     if (!req.body.name) {
+      //console.log(req.body)
         res.status(400).json({
             message: "Missing user name",
         })
     } else {
-        //  users.insert(req.body.name)
-        next()
         
-    }
+        next()
+        // console.log("033\33m[Validated")
+     }
 }
 }
 
